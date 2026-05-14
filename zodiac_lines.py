@@ -1,103 +1,129 @@
 import pygame
 import math
+import random
 
-WIDTH, HEIGHT = 800, 600
-CX, CY = WIDTH // 2, HEIGHT // 2
-S = 120  # scale
+WIDTH, HEIGHT = 1100, 600
+MAIN_W = 700
+SIDEBAR_W = 200
+SIDEBAR1_CX = MAIN_W + SIDEBAR_W // 2
+SIDEBAR2_CX = MAIN_W + SIDEBAR_W + SIDEBAR_W // 2
+ITEM_SCALE = 40
+ITEM_H = 90
+ITEMS_PER_COL = (HEIGHT - 20) // ITEM_H
+CX, CY = MAIN_W // 2, HEIGHT // 2
+S = 120
 
 COLORS = [
     (255, 80, 80), (255, 180, 0), (80, 255, 80), (0, 200, 255),
     (200, 80, 255), (255, 100, 200), (80, 255, 200), (255, 140, 40),
     (100, 100, 255), (255, 60, 120), (60, 220, 180), (180, 255, 80),
-    (255, 255, 255), (180, 180, 255), (255, 220, 120), (100, 255, 180), (255, 160, 255),
+    (255, 255, 255), (180, 180, 255), (255, 220, 120), (100, 255, 180),
+    (255, 160, 255), (80, 200, 255),
 ]
 
-def s(x, y):
-    return (CX + int(x * S), CY + int(y * S))
+# Normalized polylines: each sign is a list of polylines, each polyline is a list of (x, y) floats
+SIGNS_NORM = [
+    # Aries
+    [(-0.6, 0.2), (-0.3, -0.4), (0, 0.1)],
+    [(0, 0.1), (0.3, -0.4), (0.6, 0.2)],
+    # ---
+    [None],
+    # Taurus
+    [(-0.4, -0.5), (0, -0.8), (0.4, -0.5)],
+    [(-0.5, 0), (-0.5, 0.4), (0, 0.6), (0.5, 0.4), (0.5, 0), (0.3, -0.4), (0, -0.5), (-0.3, -0.4), (-0.5, 0)],
+]
 
-# Each sign is a list of polylines (list of list of points)
+# Rebuild as clean structure: list of signs, each sign = list of polylines, each polyline = list of (x,y)
 SIGNS = [
-    # Aries - two curved horns as lines
-    [[(s(-0.6, 0.2), s(-0.3, -0.4), s(0, 0.1)), (s(0, 0.1), s(0.3, -0.4), s(0.6, 0.2))]],
-    # Taurus - circle with horns
-    [[s(-0.4, -0.5), s(0, -0.8), s(0.4, -0.5)],
-     [s(-0.5, 0), s(-0.5, 0.4), s(0, 0.6), s(0.5, 0.4), s(0.5, 0), s(0.3, -0.4), s(0, -0.5), s(-0.3, -0.4), s(-0.5, 0)]],
-    # Gemini - two vertical bars with connectors
-    [[s(-0.4, -0.6), s(-0.4, 0.6)],
-     [s(0.4, -0.6), s(0.4, 0.6)],
-     [s(-0.4, -0.6), s(0.4, -0.6)],
-     [s(-0.4, 0.6), s(0.4, 0.6)],
-     [s(-0.4, 0), s(0.4, 0)]],
-    # Cancer - two spirals
-    [[s(0, -0.1), s(-0.3, -0.4), s(-0.5, -0.1), s(-0.3, 0.2), s(0, 0.1), s(0.3, -0.2), s(0.5, 0.1), s(0.3, 0.4), s(0, 0.1)]],
-    # Leo - circle with tail
-    [[s(0.5, 0), s(0.3, -0.4), s(0, -0.5), s(-0.3, -0.4), s(-0.5, 0), s(-0.3, 0.4), s(0, 0.5), s(0.3, 0.4), s(0.5, 0)],
-     [s(0.5, 0), s(0.7, -0.3), s(0.6, -0.6)]],
-    # Virgo - m shape with curl
-    [[s(-0.6, -0.4), s(-0.6, 0.4), s(-0.2, 0), s(0.2, 0.4), s(0.2, 0), s(0.5, -0.3), s(0.6, 0), s(0.5, 0.4), s(0.2, 0.5)]],
-    # Libra - line with bump above
-    [[s(-0.6, 0.2), s(0.6, 0.2)],
-     [s(-0.6, 0.5), s(0.6, 0.5)],
-     [s(-0.3, 0.2), s(-0.5, -0.2), s(0, -0.5), s(0.5, -0.2), s(0.3, 0.2)]],
-    # Scorpio - m with stinger
-    [[s(-0.6, -0.4), s(-0.6, 0.3), s(-0.2, 0), s(0.2, 0.3), s(0.2, -0.1), s(0.4, 0.3), s(0.6, 0.1), s(0.7, 0.4)]],
-    # Sagittarius - arrow diagonal
-    [[s(-0.6, 0.6), s(0.6, -0.6)],
-     [s(0.6, -0.6), s(0.1, -0.6)],
-     [s(0.6, -0.6), s(0.6, -0.1)],
-     [s(-0.4, 0.4), s(0.4, -0.4)]],
-    # Capricorn - v with loop
-    [[s(-0.6, -0.4), s(-0.3, 0.5), s(0, 0), s(0.4, 0.4), s(0.6, 0.1), s(0.4, -0.2), s(0.2, 0.1), s(0.4, 0.4)]],
-    # Aquarius - two waves
-    [[s(-0.6, -0.15), s(-0.3, -0.4), s(0, -0.15), s(0.3, -0.4), s(0.6, -0.15)],
-     [s(-0.6, 0.15), s(-0.3, 0.4), s(0, 0.15), s(0.3, 0.4), s(0.6, 0.15)]],
-    # Pisces - two arcs with crossbar
-    [[s(-0.2, -0.6), s(-0.5, -0.3), s(-0.6, 0), s(-0.5, 0.3), s(-0.2, 0.6)],
-     [s(0.2, -0.6), s(0.5, -0.3), s(0.6, 0), s(0.5, 0.3), s(0.2, 0.6)],
-     [s(-0.2, 0), s(0.2, 0)]],
-    # Fork-up - stem down, three prongs pointing up
-    [[s(0, 0.6), s(0, -0.2)],
-     [s(0, -0.2), s(-0.5, -0.7)],
-     [s(0, -0.2), s(0, -0.7)],
-     [s(0, -0.2), s(0.5, -0.7)]],
-    # Fork-down - stem up, three prongs pointing down
-    [[s(0, -0.6), s(0, 0.2)],
-     [s(0, 0.2), s(-0.5, 0.7)],
-     [s(0, 0.2), s(0, 0.7)],
-     [s(0, 0.2), s(0.5, 0.7)]],
+    # Aries
+    [[(-0.6, 0.2), (-0.3, -0.4), (0, 0.1)],
+     [(0, 0.1), (0.3, -0.4), (0.6, 0.2)]],
+    # Taurus
+    [[(-0.4, -0.5), (0, -0.8), (0.4, -0.5)],
+     [(-0.5, 0), (-0.5, 0.4), (0, 0.6), (0.5, 0.4), (0.5, 0), (0.3, -0.4), (0, -0.5), (-0.3, -0.4), (-0.5, 0)]],
+    # Gemini
+    [[(-0.4, -0.6), (-0.4, 0.6)],
+     [(0.4, -0.6), (0.4, 0.6)],
+     [(-0.4, -0.6), (0.4, -0.6)],
+     [(-0.4, 0.6), (0.4, 0.6)],
+     [(-0.4, 0), (0.4, 0)]],
+    # Cancer
+    [[(0, -0.1), (-0.3, -0.4), (-0.5, -0.1), (-0.3, 0.2), (0, 0.1), (0.3, -0.2), (0.5, 0.1), (0.3, 0.4), (0, 0.1)]],
+    # Leo
+    [[(0.5, 0), (0.3, -0.4), (0, -0.5), (-0.3, -0.4), (-0.5, 0), (-0.3, 0.4), (0, 0.5), (0.3, 0.4), (0.5, 0)],
+     [(0.5, 0), (0.7, -0.3), (0.6, -0.6)]],
+    # Virgo
+    [[(-0.6, -0.4), (-0.6, 0.4), (-0.2, 0), (0.2, 0.4), (0.2, 0), (0.5, -0.3), (0.6, 0), (0.5, 0.4), (0.2, 0.5)]],
+    # Libra
+    [[(-0.6, 0.2), (0.6, 0.2)],
+     [(-0.6, 0.5), (0.6, 0.5)],
+     [(-0.3, 0.2), (-0.5, -0.2), (0, -0.5), (0.5, -0.2), (0.3, 0.2)]],
+    # Scorpio
+    [[(-0.6, -0.4), (-0.6, 0.3), (-0.2, 0), (0.2, 0.3), (0.2, -0.1), (0.4, 0.3), (0.6, 0.1), (0.7, 0.4)]],
+    # Sagittarius
+    [[(-0.6, 0.6), (0.6, -0.6)],
+     [(0.6, -0.6), (0.1, -0.6)],
+     [(0.6, -0.6), (0.6, -0.1)],
+     [(-0.4, 0.4), (0.4, -0.4)]],
+    # Capricorn
+    [[(-0.6, -0.4), (-0.3, 0.5), (0, 0), (0.4, 0.4), (0.6, 0.1), (0.4, -0.2), (0.2, 0.1), (0.4, 0.4)]],
+    # Aquarius
+    [[(-0.6, -0.15), (-0.3, -0.4), (0, -0.15), (0.3, -0.4), (0.6, -0.15)],
+     [(-0.6, 0.15), (-0.3, 0.4), (0, 0.15), (0.3, 0.4), (0.6, 0.15)]],
+    # Pisces
+    [[(-0.2, -0.6), (-0.5, -0.3), (-0.6, 0), (-0.5, 0.3), (-0.2, 0.6)],
+     [(0.2, -0.6), (0.5, -0.3), (0.6, 0), (0.5, 0.3), (0.2, 0.6)],
+     [(-0.2, 0), (0.2, 0)]],
+    # Fork-up
+    [[(0, 0.6), (0, -0.2)],
+     [(0, -0.2), (-0.5, -0.7)],
+     [(0, -0.2), (0, -0.7)],
+     [(0, -0.2), (0.5, -0.7)]],
+    # Fork-down
+    [[(0, -0.6), (0, 0.2)],
+     [(0, 0.2), (-0.5, 0.7)],
+     [(0, 0.2), (0, 0.7)],
+     [(0, 0.2), (0.5, 0.7)]],
     # Parallelogram
-    [[s(-0.6, 0.4), s(-0.2, -0.4), s(0.6, -0.4), s(0.2, 0.4), s(-0.6, 0.4)]],
-    # Two opposing triangles meeting at center point (hourglass)
-    [[s(-0.55, -0.65), s(0.55, -0.65), s(0, 0), s(-0.55, -0.65)],
-     [s(-0.55, 0.65), s(0.55, 0.65), s(0, 0), s(-0.55, 0.65)]],
-    # Sine cycle
-    [[s(-0.7 + i * 1.4 / 40, -0.5 * math.sin(i * 2 * math.pi / 40)) for i in range(41)]],
+    [[(-0.6, 0.4), (-0.2, -0.4), (0.6, -0.4), (0.2, 0.4), (-0.6, 0.4)]],
+    # Twin Triangles (hourglass)
+    [[(-0.55, -0.65), (0.55, -0.65), (0, 0), (-0.55, -0.65)],
+     [(-0.55, 0.65), (0.55, 0.65), (0, 0), (-0.55, 0.65)]],
+    # Sine Cycle
+    [[(-0.7 + i * 1.4 / 40, -0.5 * math.sin(i * 2 * math.pi / 40)) for i in range(41)]],
+    # Circle
+    [[(0.6 * math.cos(i * 2 * math.pi / 60), 0.6 * math.sin(i * 2 * math.pi / 60)) for i in range(61)]],
 ]
 
 NAMES = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo",
          "Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces",
-         "Fork-Up","Fork-Down","Parallelogram","Twin Triangles","Sine Cycle"]
+         "compose","decompose","causal diagram","Twin Triangles","Sine Cycle","Circle"]
 
-def draw_sign(surface, index, color):
+def p(x, y, cx, cy, scale):
+    return (cx + int(x * scale), cy + int(y * scale))
+
+def draw_sign(surface, index, color, cx, cy, scale):
     for polyline in SIGNS[index]:
-        if polyline and isinstance(polyline[0], tuple) and isinstance(polyline[0][0], tuple):
-            # list of polylines (Aries case)
-            for sub in polyline:
-                if len(sub) >= 2:
-                    pygame.draw.lines(surface, color, False, sub, 1)
-        else:
-            if len(polyline) >= 2:
-                pygame.draw.lines(surface, color, False, polyline, 1)
+        pts = [p(x, y, cx, cy, scale) for x, y in polyline]
+        if len(pts) >= 2:
+            pygame.draw.lines(surface, color, False, pts, 1)
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Zodiac Lines")
     clock = pygame.time.Clock()
-    font = pygame.font.SysFont("arial", 28)
+    font = pygame.font.SysFont("arial", 24)
+    small_font = pygame.font.SysFont("arial", 11)
 
     current = 0
     show = False
+    sidebar = []  # list of sign indices
+
+    SHORTCUTS = {
+        pygame.K_1: 12, pygame.K_2: 13, pygame.K_3: 14,
+        pygame.K_4: 15, pygame.K_5: 16, pygame.K_6: 17,
+    }
 
     running = True
     while running:
@@ -107,26 +133,40 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     if show:
-                        current = (current + 1) % 17
+                        current = (current + 1) % len(SIGNS)
                     show = True
-                elif event.key == pygame.K_1:
-                    current, show = 12, True
-                elif event.key == pygame.K_2:
-                    current, show = 13, True
-                elif event.key == pygame.K_3:
-                    current, show = 14, True
-                elif event.key == pygame.K_4:
-                    current, show = 15, True
-                elif event.key == pygame.K_5:
-                    current, show = 16, True
+                    sidebar.append(current)
+                elif event.key in SHORTCUTS:
+                    current = SHORTCUTS[event.key]
+                    show = True
+                    sidebar.append(current)
+                elif event.key == pygame.K_c:
+                    sidebar.clear()
+                elif event.key == pygame.K_r:
+                    sidebar.clear()
+                    sidebar.extend(random.choices(range(len(SIGNS)), k=6))
 
         screen.fill((0, 0, 0))
+        pygame.draw.line(screen, (60, 60, 60), (MAIN_W, 0), (MAIN_W, HEIGHT), 1)
+        pygame.draw.line(screen, (60, 60, 60), (MAIN_W + SIDEBAR_W, 0), (MAIN_W + SIDEBAR_W, HEIGHT), 1)
 
         if show:
             color = COLORS[current]
-            draw_sign(screen, current, color)
+            draw_sign(screen, current, color, CX, CY, S)
             label = font.render(NAMES[current], True, color)
             screen.blit(label, (CX - label.get_width() // 2, CY + int(0.75 * S)))
+
+        # Draw sidebars
+        for i, idx in enumerate(sidebar):
+            col = i // ITEMS_PER_COL
+            if col > 1:
+                break
+            cx = SIDEBAR1_CX if col == 0 else SIDEBAR2_CX
+            item_cy = 45 + (i % ITEMS_PER_COL) * ITEM_H
+            color = COLORS[idx]
+            draw_sign(screen, idx, color, cx, item_cy, ITEM_SCALE)
+            lbl = small_font.render(NAMES[idx], True, color)
+            screen.blit(lbl, (cx - lbl.get_width() // 2, item_cy + ITEM_SCALE + 4))
 
         pygame.display.flip()
         clock.tick(30)
