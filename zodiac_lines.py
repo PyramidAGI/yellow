@@ -18,7 +18,7 @@ COLORS = [
     (200, 80, 255), (255, 100, 200), (80, 255, 200), (255, 140, 40),
     (100, 100, 255), (255, 60, 120), (60, 220, 180), (180, 255, 80),
     (255, 255, 255), (180, 180, 255), (255, 220, 120), (100, 255, 180),
-    (255, 160, 255), (80, 200, 255), (255, 120, 80), (200, 255, 100),
+    (255, 160, 255), (80, 200, 255), (255, 120, 80), (200, 255, 100), (255, 200, 200),
 ]
 
 # Normalized polylines: each sign is a list of polylines, each polyline is a list of (x, y) floats
@@ -99,11 +99,14 @@ SIGNS = [
      [(0.7, 0), (0.3, 0.4)]],
     # Dot
     [[(0.08 * math.cos(i * 2 * math.pi / 20), 0.08 * math.sin(i * 2 * math.pi / 20)) for i in range(21)]],
+    # Sentence (8x1 table)
+    [[(-0.7, -0.15), (0.7, -0.15), (0.7, 0.15), (-0.7, 0.15), (-0.7, -0.15)]]
+    + [[(-0.7 + i * 1.4 / 8, -0.15), (-0.7 + i * 1.4 / 8, 0.15)] for i in range(1, 8)],
 ]
 
 NAMES = ["Aries","Taurus","Gemini","Cancer","Leo","Virgo",
          "Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces",
-         "compose","decompose","causal diagram","Twin Triangles","Sine Cycle","Circle","Arrow Right","Dot"]
+         "compose","decompose","causal diagram","Twin Triangles","Sine Cycle","Circle","Arrow Right","Dot","Sentence"]
 
 def p(x, y, cx, cy, scale):
     return (cx + int(x * scale), cy + int(y * scale))
@@ -117,7 +120,7 @@ def draw_sign(surface, index, color, cx, cy, scale):
 def main():
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("Zodiac Lines")
+    pygame.display.set_caption("fly with time - space capsule -> combine X P I T with kolmo and commonality")
     clock = pygame.time.Clock()
     font = pygame.font.SysFont("arial", 24)
     small_font = pygame.font.SysFont("arial", 11)
@@ -128,7 +131,7 @@ def main():
 
     SHORTCUTS = {
         pygame.K_1: 12, pygame.K_2: 13, pygame.K_3: 14,
-        pygame.K_4: 15, pygame.K_5: 16, pygame.K_6: 17, pygame.K_7: 18, pygame.K_8: 19,
+        pygame.K_4: 15, pygame.K_5: 16, pygame.K_6: 17, pygame.K_7: 18, pygame.K_8: 19, pygame.K_9: 20,
     }
 
     running = True
