@@ -149,6 +149,9 @@ def main():
                     current = SHORTCUTS[event.key]
                     show = True
                     sidebar.append(current)
+                elif event.key == pygame.K_DELETE:
+                    if sidebar:
+                        sidebar.pop()
                 elif event.key == pygame.K_c:
                     sidebar.clear()
                 elif event.key == pygame.K_r:
