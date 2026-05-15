@@ -28,7 +28,7 @@ TREE_LAYOUT = [
 ]
 
 def new_signs():
-    return random.sample(range(len(SIGNS)), 12)
+    return random.choices(range(12, min(21, len(SIGNS))), k=12)
 
 def draw_tree(surface, sign_indices, font):
     for i, (parent, x, y) in enumerate(TREE_LAYOUT):
