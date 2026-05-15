@@ -12,6 +12,8 @@ LINE_COLOR = (80, 80, 80)
 
 # Tree layout: (parent_index, x, y)
 # 1 root + 3 branches + 8 leaves = 12 total
+CHILDREN = {0: [1, 2, 3], 1: [4, 5, 6], 2: [7, 8, 9], 3: [10, 11]}
+
 TREE_LAYOUT = [
     (None, 500,  90),   # 0  root
     (0,    200, 280),   # 1  branch 1
@@ -26,6 +28,14 @@ TREE_LAYOUT = [
     (3,    720, 510),   # 10
     (3,    880, 510),   # 11
 ]
+
+def random_path():
+    path = [0]
+    node = 0
+    while node in CHILDREN:
+        node = random.choice(CHILDREN[node])
+        path.append(node)
+    return path
 
 def new_signs():
     return random.choices(range(12, min(21, len(SIGNS))), k=12)
@@ -52,6 +62,9 @@ def main():
 
     signs = new_signs()
     bg = (0, 0, 0)
+    nav_path = None
+    nav_t = 0.0
+    NAV_SPEED = 0.04
 
     running = True
     while running:
@@ -63,9 +76,28 @@ def main():
                     signs = new_signs()
                 elif event.key == pygame.K_b:
                     bg = (255, 255, 255) if bg == (0, 0, 0) else (0, 0, 0)
+                elif event.key == pygame.K_n:
+                    nav_path = random_path()
+                    nav_t = 0.0
 
         screen.fill(bg)
         draw_tree(screen, signs, font)
+
+        if nav_path:
+            nav_t += NAV_SPEED
+            seg = int(nav_t)
+            if seg >= len(nav_path) - 1:
+                nav_path = None
+            else:
+                frac = nav_t - seg
+                _, x0, y0 = TREE_LAYOUT[nav_path[seg]]
+                _, x1, y1 = TREE_LAYOUT[nav_path[seg + 1]]
+                bx = int(x0 + (x1 - x0) * frac)
+                by = int(y0 + (y1 - y0) * frac)
+                pygame.draw.circle(screen, (255, 220, 50), (bx, by), 5)
+
+        caption = font.render("fly with time-space capsule. combine X P I T with quarks, kolmo and commonality.", True, (120, 120, 120))
+        screen.blit(caption, (WIDTH // 2 - caption.get_width() // 2, HEIGHT - 22))
         pygame.display.flip()
         clock.tick(30)
 
