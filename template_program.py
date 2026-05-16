@@ -9,7 +9,7 @@ FIELDS = ["natural language input", "e0", "e1", "e2", "e3", "e4", "v", "threshol
 
 def load_example_cluster() -> tuple[str, list[str]]:
     # Loads a cluster from examplecluster.txt: one sentence with multiple matches.
-    # The sentence is on the first line only; subsequent lines start with ';'.
+    # The natural language sentence is on the first line only; subsequent lines start with ';'.
     # Returns the sentence and a list of match strings (fields e0-e4, v, threshold, message output).
     lines = [l for l in EXAMPLE_FILE.read_text(encoding="utf-8").splitlines() if l.strip()]
     sentence = lines[0].split(";")[0]
