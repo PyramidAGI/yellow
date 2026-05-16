@@ -68,6 +68,41 @@ def append_matches_cluster(path: Path, sentence: str, matches: list[str]) -> Non
         writer.writerow(["", "", "", "", "", "", "", "", ""])
 
 
+def count_clusters() -> int:
+    if not LOG_FILE.exists():
+        return 0
+    count = 0
+    in_cluster = False
+    with LOG_FILE.open(encoding="utf-8-sig", newline="") as f:
+        for row in csv.reader(f, delimiter=";"):
+            if any(cell.strip() for cell in row):
+                if not in_cluster:
+                    count += 1
+                    in_cluster = True
+            else:
+                in_cluster = False
+    return count
+
+
+def get_cluster(cluster_number: int) -> list[list[str]]:
+    if not LOG_FILE.exists():
+        return []
+    clusters = []
+    current = []
+    with LOG_FILE.open(encoding="utf-8-sig", newline="") as f:
+        for row in csv.reader(f, delimiter=";"):
+            if any(cell.strip() for cell in row):
+                current.append(row)
+            elif current:
+                clusters.append(current)
+                current = []
+    if current:
+        clusters.append(current)
+    if cluster_number < 1 or cluster_number > len(clusters):
+        return []
+    return clusters[cluster_number - 1]
+
+
 def check_log() -> None:
     if not LOG_FILE.exists():
         print("log.csv not found.")
@@ -86,7 +121,7 @@ def check_log() -> None:
 
 
 def main():
-    print("Press 'l' to log the example sentence, 'c' to check log.csv, 'q' to quit.")
+    print("Press 'l' to log, 'c' to check, 'count' to count clusters, 'g' to get cluster, 'q' to quit.")
     while True:
         key = input("> ").strip().lower()
         if key == "l":
@@ -95,6 +130,16 @@ def main():
             print(f"Logged: {sentence}")
         elif key == "c":
             check_log()
+        elif key == "count":
+            print(f"Clusters in log.csv: {count_clusters()}")
+        elif key == "g":
+            n = input("Cluster number: ").strip()
+            rows = get_cluster(int(n))
+            if rows:
+                for row in rows:
+                    print(";".join(row))
+            else:
+                print("Cluster not found.")
         elif key == "q":
             break
 
