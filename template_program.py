@@ -2,17 +2,16 @@ import csv
 from pathlib import Path
 
 LOG_FILE = Path(__file__).parent / "log.csv"
-EXAMPLE_FILE = Path(__file__).parent / "examplesentence.txt"
+EXAMPLE_FILE = Path(__file__).parent / "examplecluster.txt"
 
 FIELDS = ["natural language input", "e0", "e1", "e2", "e3", "e4", "v", "threshold", "message output"]
 
 
-def load_example() -> tuple[str, list[str]]:
-    line = EXAMPLE_FILE.read_text(encoding="utf-8").strip()
-    parts = line.split(";")
-    sentence = parts[0]
-    match = ";".join(parts[1:])
-    return sentence, [match]
+def load_example_cluster() -> tuple[str, list[str]]:
+    lines = [l for l in EXAMPLE_FILE.read_text(encoding="utf-8").splitlines() if l.strip()]
+    sentence = lines[0].split(";")[0]
+    matches = [";".join(l.split(";")[1:]) for l in lines]
+    return sentence, matches
 
 
 def parse_match(match: str) -> dict:
@@ -88,7 +87,7 @@ def main():
     while True:
         key = input("> ").strip().lower()
         if key == "l":
-            sentence, matches = load_example()
+            sentence, matches = load_example_cluster()
             log(sentence, matches)
             print(f"Logged: {sentence}")
         elif key == "c":
