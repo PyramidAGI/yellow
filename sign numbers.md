@@ -1,7 +1,7 @@
 
-
+|shortcut number|sign|program id|
+|---|---|---|
 |1|compose|12|
-|-|-|-|
 |2|decompose|13|
 |3|causal diagram|14|
 |4|twin triangles|15|
@@ -135,6 +135,7 @@ it is a controller that navigates and plans
 
 goal=move. move - X = F
 
+---
 
 
 
