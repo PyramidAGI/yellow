@@ -11,7 +11,8 @@
 |8|dot|19|
 |9|sentence|20|
 
-
+EVERY SIGN CAN BE STATIC OR DYNAMIC
+so a dynamic sign can fly trough other static signs
 
 fly with time - space capsule
 
