@@ -1,0 +1,7 @@
+
+make a self-modifying self-organizing cognitive program for evolutionary programming. 
+use natural language data
+use transformations between semantic graphs
+the definition of success is a network of concepts interacting 
+use causal coding 
+use an inference control scheme

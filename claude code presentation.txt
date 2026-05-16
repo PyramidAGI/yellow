@@ -1,0 +1,9 @@
+
+
+effort -> trade off: time, cost and quality
+
+claude 4.7 is better at structuring memory
+how many files should i split memory into?
+how do i keep it organized inside a file system
+it does this with Bash tools and grep tools
+

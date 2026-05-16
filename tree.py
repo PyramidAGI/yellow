@@ -3,8 +3,11 @@ import math
 import random
 import sys
 import os
+import csv
 sys.path.insert(0, os.path.dirname(__file__))
 from zodiac_lines import SIGNS, NAMES, COLORS, draw_sign
+
+CSV_FILE = os.path.join(os.path.dirname(__file__), "tree1.csv")
 
 WIDTH, HEIGHT = 1000, 680
 SCALE = 45
@@ -79,6 +82,13 @@ def main():
                 elif event.key == pygame.K_n:
                     nav_path = random_path()
                     nav_t = 0.0
+                elif event.key == pygame.K_s:
+                    with open(CSV_FILE, "w", newline="") as f:
+                        csv.writer(f).writerow(signs)
+                elif event.key == pygame.K_l:
+                    if os.path.exists(CSV_FILE):
+                        with open(CSV_FILE, newline="") as f:
+                            signs = [int(x) for x in next(csv.reader(f))]
 
         screen.fill(bg)
         draw_tree(screen, signs, font)
