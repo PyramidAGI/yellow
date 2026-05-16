@@ -1,5 +1,12 @@
 # Sign Tree
 
+## Requirements
+
+```
+pip install pygame-ce
+```
+
+
 A visual tool for arranging symbolic signs in a binary tree structure.
 
 ## Programs
