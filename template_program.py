@@ -112,6 +112,14 @@ def recall(cluster_number: int) -> None:
     matches = [";".join(row[1:]) for row in rows]
     log(sentence, matches)
 
+def solve_problem(cluster_number: int) -> list[list[str]]:
+    # Get cluster, send to LLM, parse result into rows.
+    cluster = get_cluster(cluster_number)
+    if not cluster:
+        return []
+    # TODO: call LLM with cluster and parse response into list of rows
+    return []
+
 
 def check_log() -> None:
     if not LOG_FILE.exists():
