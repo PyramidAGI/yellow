@@ -139,7 +139,7 @@ def check_log() -> None:
 
 
 def main():
-    print("Press 'l' to log, 'c' to check, 'count' to count, 'g' to get, 'recall' to recall a cluster, 'q' to quit.")
+    print("Press 'l' to log, 'c' to check, 'count' to count, 'g' to get, 'recall' to recall, 's' to solve, 'q' to quit.")
     while True:
         key = input("> ").strip().lower()
         if key == "l":
@@ -162,6 +162,14 @@ def main():
             n = input("Cluster number to recall: ").strip()
             recall(int(n))
             print(f"Cluster {n} appended to log.")
+        elif key == "s":
+            n = input("Cluster number to solve: ").strip()
+            result = solve_problem(int(n))
+            if result:
+                for row in result:
+                    print(";".join(row))
+            else:
+                print("No result.")
         elif key == "q":
             break
 
