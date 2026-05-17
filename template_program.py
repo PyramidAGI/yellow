@@ -103,6 +103,16 @@ def get_cluster(cluster_number: int) -> list[list[str]]:
     return clusters[cluster_number - 1]
 
 
+def recall(cluster_number: int) -> None:
+    rows = get_cluster(cluster_number)
+    if not rows:
+        print("Cluster not found.")
+        return
+    sentence = rows[0][0]
+    matches = [";".join(row[1:]) for row in rows]
+    log(sentence, matches)
+
+
 def check_log() -> None:
     if not LOG_FILE.exists():
         print("log.csv not found.")
@@ -121,7 +131,7 @@ def check_log() -> None:
 
 
 def main():
-    print("Press 'l' to log, 'c' to check, 'count' to count clusters, 'g' to get cluster, 'q' to quit.")
+    print("Press 'l' to log, 'c' to check, 'count' to count, 'g' to get, 'recall' to recall a cluster, 'q' to quit.")
     while True:
         key = input("> ").strip().lower()
         if key == "l":
@@ -140,6 +150,10 @@ def main():
                     print(";".join(row))
             else:
                 print("Cluster not found.")
+        elif key == "recall":
+            n = input("Cluster number to recall: ").strip()
+            recall(int(n))
+            print(f"Cluster {n} appended to log.")
         elif key == "q":
             break
 
