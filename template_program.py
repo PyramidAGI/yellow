@@ -116,6 +116,7 @@ def recall(cluster_number: int) -> None:
 
 def solve_problem(cluster_number: int) -> list[list[str]]:
     # Get cluster, send to LLM, parse result into rows.
+    # Pass -1 to solve the most recently added cluster.
     cluster = get_cluster(cluster_number)
     if not cluster:
         return []
