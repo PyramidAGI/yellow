@@ -1,0 +1,29 @@
+
+
+so we are looking for combinations of signs
+that together form a complex operator
+
+for instance:
+
+getting around an obstacle: decompose arrowright circle 276
+making a robot claw: twintriangles sinecycle (+ control implicit in twintriangles) 45
+
+JUST SAY 276 AND RUN IT!
+
+how do you divide it:
+LLMs do programming, CAD design
+TWM handles recombinable building blocks that can adapt, do long term reasoning, problem solving, have memory
+
+perhaps the LLM can ingest the same building blocks and so the whole thing becomes grounded?
+
+perhaps raspi and arduino can be loaded by LLM code? -> yes
+
+container decompose circle
+contract decompose twintriangles
+tool cycle arrowright
+
+The next big step is probably not more logging, but similarity and selection:
+when a new cluster arrives, the system should ask, “Which previous cluster is most similar, and what happened then?” 
+That would turn it from a log into a primitive reasoning engine.
+
+
