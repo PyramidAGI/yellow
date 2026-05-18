@@ -57,6 +57,25 @@ Only the first row of a cluster has the sentence; subsequent rows in the same cl
 | `s` | Solve a cluster (calls LLM, prints result) |
 | `q` | Quit |
 
+**Using as a module:**
+
+`template_program.py` can be imported into any other Python program to simulate a sign or a combination of signs. Import the functions you need and call them directly:
+
+```python
+from template_program import log, get_cluster, recall, solve_problem
+
+# Log a cluster representing a sign combination
+log("robot avoids obstacle", [
+    "a;decompose;thing1;thing2;path;30;50;",
+    ";arrowright;thing2;thing3;motion;20;40;",
+])
+
+# Retrieve and reuse a stored cluster
+cluster = get_cluster(1)
+```
+
+Each sign or combination of signs maps to one or more rows in a cluster. A simulation program can build clusters programmatically and log them, then use `solve_problem` to request reasoning from an LLM.
+
 ## Tree files
 
 - `tree1.csv` — active tree (used by tree.py)
