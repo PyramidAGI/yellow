@@ -7,7 +7,7 @@ pip install pygame-ce
 ```
 
 
-A visual tool for arranging symbolic signs in a binary tree structure.
+Yellow is a symbolic reasoning toolkit. It combines a visual sign editor with a structured logging and recall system. Signs represent abstract operators (compose, decompose, cycle, causal diagram, etc.) that can be arranged, combined, and navigated in a tree. Clusters of sign-matches are stored in a log and can be retrieved, replayed, and passed to an LLM for reasoning. The goal is a lightweight reasoning engine where navigation, memory, and transformation are the core operations.
 
 ## Programs
 
