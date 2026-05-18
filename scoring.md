@@ -9,5 +9,5 @@ Each Python program gets scored on:
 
 
 
-score = a \* prediction\_accuracy + beta \* compression\_gain + gamma \* stability\_improvement
+score = alpha \* prediction\_accuracy + beta \* compression\_gain + gamma \* stability\_improvement
 
