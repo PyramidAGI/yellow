@@ -15,6 +15,20 @@ Yellow is a symbolic reasoning toolkit. It combines a visual sign editor with a 
 
 Displays 12 signs in a tree with 1 root, 3 branches, and 8 leaves. Signs are drawn from the custom sign library in `zodiac_lines.py`.
 
+**Signs used (indices 12–20):**
+
+| Shortcut | Name | ID |
+|----------|------|----|
+| 1 | Compose | 12 |
+| 2 | Decompose | 13 |
+| 3 | Causal Diagram | 14 |
+| 4 | Twin Triangles | 15 |
+| 5 | Sine Cycle | 16 |
+| 6 | Circle | 17 |
+| 7 | Arrow Right | 18 |
+| 8 | Dot | 19 |
+| 9 | Sentence | 20 |
+
 **Run:**
 ```
 python tree.py
