@@ -98,6 +98,8 @@ def get_cluster(cluster_number: int) -> list[list[str]]:
                 current = []
     if current:
         clusters.append(current)
+    if cluster_number == -1:  # -1 returns the most recently added cluster
+        return clusters[-1] if clusters else []
     if cluster_number < 1 or cluster_number > len(clusters):
         return []
     return clusters[cluster_number - 1]

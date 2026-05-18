@@ -52,7 +52,7 @@ Only the first row of a cluster has the sentence; subsequent rows in the same cl
 | `l` | Log the example cluster from `examplecluster.txt` to `log.csv` |
 | `c` | Check `log.csv` for formatting errors |
 | `count` | Print the number of clusters in `log.csv` |
-| `g` | Get a cluster by number and print its rows |
+| `g` | Get a cluster by number and print its rows (use `-1` for the last cluster) |
 | `recall` | Append a cluster to the end of `log.csv` |
 | `s` | Solve a cluster (calls LLM, prints result) |
 | `q` | Quit |
