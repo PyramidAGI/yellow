@@ -1,0 +1,14 @@
+input;response
+can I clamp;get a clamp tree
+what is yellow;yellow is a symbolic reasoning toolkit
+how do I run tree;run python tree.py
+what are signs;signs are abstract operators like compose and decompose
+what is compose;compose combines two elements into one
+what is decompose;decompose splits one element into parts
+how do I log;clusters of sign matches are stored in the log
+what is a causal diagram;a causal diagram shows cause and effect relationships
+how do I retrieve a log;use the recall system to replay stored clusters
+what signs are available;compose decompose causal diagram twin triangles sine cycle circle arrow dot sentence
+how do I install and run;run pip install pygame-ce. and after that you can run with 'python tree.py'.
+how do i start;first think of an ontology for your problem, then make a better causal diagram. then make a tree.
+give an example; an example is a traffic jam. first think of the players: a car and a road and a jam. then, think of the criteria: #less jams
