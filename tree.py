@@ -93,7 +93,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 cmd_map = {
                     pygame.K_r: "randomize", pygame.K_b: "toggle",
-                    pygame.K_n: "launch", pygame.K_s: "save",
+                    pygame.K_n: "navigate", pygame.K_s: "save",
                     pygame.K_t: "traverse", pygame.K_l: "load",
                 }
                 if event.key in cmd_map:

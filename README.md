@@ -53,7 +53,7 @@ python tree.py
 | Key | Action |
 |-----|--------|
 | R | Randomize signs |
-| N | Launch a ball along a random path from root to leaf |
+| N | Navigate a ball along a random path from root to leaf |
 | B | Toggle black / white background |
 | S | Save current tree to `tree1.csv` |
 | T | Walk all root-to-leaf paths sequentially — one path per press |
