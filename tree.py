@@ -97,6 +97,9 @@ def main():
                     nav_path = random_path()
                     nav_t = 0.0
                 elif event.key == pygame.K_s:
+                    with open(CSV_FILE, "w", newline="") as f:
+                        csv.writer(f).writerow(signs)
+                elif event.key == pygame.K_t:
                     if not seq_paths or seq_idx >= len(seq_paths):
                         seq_paths = all_paths()
                         seq_idx = 0

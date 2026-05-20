@@ -56,6 +56,7 @@ python tree.py
 | N | Launch a ball along a random path from root to leaf |
 | B | Toggle black / white background |
 | S | Save current tree to `tree1.csv` |
+| T | Walk all root-to-leaf paths sequentially — one path per press |
 | L | Load tree from `tree1.csv` |
 
 ### load_tree.py
