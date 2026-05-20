@@ -82,6 +82,8 @@ def main():
     NAV_SPEED = 0.04
     seq_paths = []
     seq_idx = 0
+    cmd_word = ""
+    cmd_timer = 0
 
     running = True
     while running:
@@ -89,6 +91,14 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
+                cmd_map = {
+                    pygame.K_r: "randomize", pygame.K_b: "toggle",
+                    pygame.K_n: "launch", pygame.K_s: "save",
+                    pygame.K_t: "traverse", pygame.K_l: "load",
+                }
+                if event.key in cmd_map:
+                    cmd_word = cmd_map[event.key]
+                    cmd_timer = pygame.time.get_ticks()
                 if event.key == pygame.K_r:
                     signs = new_signs()
                 elif event.key == pygame.K_b:
@@ -126,6 +136,10 @@ def main():
                 bx = int(x0 + (x1 - x0) * frac)
                 by = int(y0 + (y1 - y0) * frac)
                 pygame.draw.circle(screen, (255, 220, 50), (bx, by), 5)
+
+        if cmd_word and pygame.time.get_ticks() - cmd_timer < 500:
+            cmd_lbl = font.render(cmd_word, True, (200, 200, 200))
+            screen.blit(cmd_lbl, (10, 10))
 
         caption = font.render("fly with time-space capsule. combine X P I T with quarks, kolmo and commonality.", True, (120, 120, 120))
         screen.blit(caption, (WIDTH // 2 - caption.get_width() // 2, HEIGHT - 22))
