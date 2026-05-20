@@ -32,6 +32,18 @@ TREE_LAYOUT = [
     (3,    880, 510),   # 11
 ]
 
+def all_paths():
+    paths = []
+    def dfs(node, current):
+        current = current + [node]
+        if node not in CHILDREN:
+            paths.append(current)
+        else:
+            for child in CHILDREN[node]:
+                dfs(child, current)
+    dfs(0, [])
+    return paths
+
 def random_path():
     path = [0]
     node = 0
@@ -68,6 +80,8 @@ def main():
     nav_path = None
     nav_t = 0.0
     NAV_SPEED = 0.04
+    seq_paths = []
+    seq_idx = 0
 
     running = True
     while running:
@@ -83,8 +97,11 @@ def main():
                     nav_path = random_path()
                     nav_t = 0.0
                 elif event.key == pygame.K_s:
-                    with open(CSV_FILE, "w", newline="") as f:
-                        csv.writer(f).writerow(signs)
+                    if not seq_paths or seq_idx >= len(seq_paths):
+                        seq_paths = all_paths()
+                        seq_idx = 0
+                    nav_path = seq_paths[seq_idx]
+                    nav_t = 0.0
                 elif event.key == pygame.K_l:
                     if os.path.exists(CSV_FILE):
                         with open(CSV_FILE, newline="") as f:
@@ -97,6 +114,7 @@ def main():
             nav_t += NAV_SPEED
             seg = int(nav_t)
             if seg >= len(nav_path) - 1:
+                seq_idx += 1
                 nav_path = None
             else:
                 frac = nav_t - seg
