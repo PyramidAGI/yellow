@@ -1,5 +1,11 @@
 # Yellow
 
+## Clone
+
+```
+git clone https://github.com/PyramidAGI/yellow.git
+```
+
 ## Requirements
 
 ```
