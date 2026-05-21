@@ -75,6 +75,8 @@ Enter a filename (e.g. `tree2.csv`) when prompted. The contents will be copied i
 
 A command-line tool for logging and inspecting clusters in `log.csv`. A cluster is a group of rows belonging to one natural language sentence, delimited by empty rows.
 
+**CONST parameter:** set `CONST = 1` at the top of the file to use `log1.csv` instead of `log.csv`. `CONST = 0` (or any falsy value) keeps the default `log.csv`.
+
 **CSV format** (semicolon-delimited, 9 fields):
 
 | natural language input | e0 | e1 | e2 | e3 | e4 | v | threshold | message output |
