@@ -3,7 +3,10 @@ from pathlib import Path
 
 # CONST = 1 to use log1.csv, CONST = 0 (or any falsy value) keeps log.csv
 CONST = 0
-LOG_FILE = Path(__file__).parent / (f"log{CONST}.csv" if CONST else "log.csv")
+
+def get_log_file() -> Path:
+    import template_program
+    return Path(__file__).parent / (f"log{template_program.CONST}.csv" if template_program.CONST else "log.csv")
 EXAMPLE_FILE = Path(__file__).parent / "examplecluster.txt"
 
 FIELDS = ["natural language input", "e0", "e1", "e2", "e3", "e4", "v", "threshold", "message output"]
@@ -26,7 +29,7 @@ def parse_match(match: str) -> dict:
 
 
 def log(sentence: str, matches: list[str]) -> None:
-    append_matches_cluster(LOG_FILE, sentence, matches)
+    append_matches_cluster(get_log_file(), sentence, matches)
 
 
 def append_matches_cluster(path: Path, sentence: str, matches: list[str]) -> None:
@@ -71,11 +74,11 @@ def append_matches_cluster(path: Path, sentence: str, matches: list[str]) -> Non
 
 
 def count_clusters() -> int:
-    if not LOG_FILE.exists():
+    if not get_log_file().exists():
         return 0
     count = 0
     in_cluster = False
-    with LOG_FILE.open(encoding="utf-8-sig", newline="") as f:
+    with get_log_file().open(encoding="utf-8-sig", newline="") as f:
         for row in csv.reader(f, delimiter=";"):
             if any(cell.strip() for cell in row):
                 if not in_cluster:
@@ -87,11 +90,11 @@ def count_clusters() -> int:
 
 
 def get_cluster(cluster_number: int) -> list[list[str]]:
-    if not LOG_FILE.exists():
+    if not get_log_file().exists():
         return []
     clusters = []
     current = []
-    with LOG_FILE.open(encoding="utf-8-sig", newline="") as f:
+    with get_log_file().open(encoding="utf-8-sig", newline="") as f:
         for row in csv.reader(f, delimiter=";"):
             if any(cell.strip() for cell in row):
                 current.append(row)
@@ -127,11 +130,11 @@ def solve_problem(cluster_number: int) -> list[list[str]]:
 
 
 def check_log() -> None:
-    if not LOG_FILE.exists():
+    if not get_log_file().exists():
         print("log.csv not found.")
         return
     errors = []
-    with LOG_FILE.open(encoding="utf-8-sig", newline="") as f:
+    with get_log_file().open(encoding="utf-8-sig", newline="") as f:
         for i, row in enumerate(csv.reader(f, delimiter=";"), start=1):
             if len(row) != 9:
                 errors.append(f"  line {i}: expected 9 fields, got {len(row)} — {row}")
