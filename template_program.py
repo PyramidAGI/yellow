@@ -5,6 +5,8 @@ from pathlib import Path
 CONST = 0
 
 def get_log_file() -> Path:
+    # A function rather than a module-level constant so that external scripts can override CONST after import
+    # and have the new value take effect. A constant is evaluated once at import time and won't update.
     import template_program
     return Path(__file__).parent / (f"log{template_program.CONST}.csv" if template_program.CONST else "log.csv")
 EXAMPLE_FILE = Path(__file__).parent / "examplecluster.txt"
