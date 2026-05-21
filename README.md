@@ -75,11 +75,13 @@ Enter a filename (e.g. `tree2.csv`) when prompted. The contents will be copied i
 
 A command-line tool for logging and inspecting clusters in `log.csv`. A cluster is a group of rows belonging to one natural language sentence, delimited by empty rows.
 
-**CONST parameter:** set `CONST = 1` at the top of the file to use `log1.csv` instead of `log.csv`. `CONST = 0` (or any falsy value) keeps the default `log.csv`. The active log path is resolved by `get_log_file()` at call time, so when importing you can override it after import:
+**CONST parameter:** set `CONST = 1` at the top of the file to use `log1.csv` instead of `log.csv`. `CONST = 0` (or any falsy value) keeps the default `log.csv`. When importing, just set `CONST` and call the normal functions — you never need to call `get_log_file()` yourself:
 
 ```python
 import template_program
-template_program.CONST = 1  # now uses log1.csv
+template_program.CONST = 1  # switch to log1.csv
+
+template_program.log("my sentence", ["e0;e1;e2;e3;e4;v;threshold;"])
 ```
 
 **CSV format** (semicolon-delimited, 9 fields):
