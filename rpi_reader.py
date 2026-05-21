@@ -25,9 +25,10 @@ def main():
         value = read_channel(CHANNEL)
         voltage = round(value * 3.3, 4)
         timestamp = time.strftime("%Y-%m-%dT%H:%M:%S")
+        # format: e0=a, e1=sensor, e2-e4 empty, v=sensor value, threshold=threshold value
         template_program.log(
             f"analogue channel {CHANNEL} reading",
-            [f"channel {CHANNEL};{value};{voltage};{timestamp};;{value};{THRESHOLD};"]
+            [f"a;sensor;;;;{value};{THRESHOLD};"]
         )
         print(f"[{timestamp}] ch{CHANNEL} = {value} ({voltage}V)")
         time.sleep(INTERVAL)
