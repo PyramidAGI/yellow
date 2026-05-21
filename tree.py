@@ -95,6 +95,8 @@ def main():
                     pygame.K_r: "randomize", pygame.K_b: "toggle",
                     pygame.K_n: "navigate", pygame.K_s: "save",
                     pygame.K_t: "traverse", pygame.K_l: "load",
+                    pygame.K_1: "load 1", pygame.K_2: "load 2", pygame.K_3: "load 3",
+                    pygame.K_4: "load 4", pygame.K_5: "load 5", pygame.K_6: "load 6",
                 }
                 if event.key in cmd_map:
                     cmd_word = cmd_map[event.key]
@@ -118,6 +120,12 @@ def main():
                 elif event.key == pygame.K_l:
                     if os.path.exists(CSV_FILE):
                         with open(CSV_FILE, newline="") as f:
+                            signs = [int(x) for x in next(csv.reader(f))]
+                elif event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5, pygame.K_6):
+                    n = event.key - pygame.K_0
+                    path = os.path.join(os.path.dirname(__file__), f"tree{n}.csv")
+                    if os.path.exists(path):
+                        with open(path, newline="") as f:
                             signs = [int(x) for x in next(csv.reader(f))]
 
         screen.fill(bg)

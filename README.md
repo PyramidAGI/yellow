@@ -56,8 +56,10 @@ python tree.py
 | N | Navigate a ball along a random path from root to leaf |
 | B | Toggle black / white background |
 | S | Save current tree to `tree1.csv` |
-| T | Walk all root-to-leaf paths sequentially — one path per press |
+| T | Traverse — walk all root-to-leaf paths sequentially, one path per press |
 | L | Load tree from `tree1.csv` |
+
+Each key press briefly shows a command word in the top-left corner (e.g. "traverse", "navigate", "save").
 
 ### load_tree.py
 
