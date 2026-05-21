@@ -1,7 +1,9 @@
 import csv
 from pathlib import Path
 
-LOG_FILE = Path(__file__).parent / "log.csv"
+# CONST = 1 to use log1.csv, CONST = 0 (or any falsy value) keeps log.csv
+CONST = 0
+LOG_FILE = Path(__file__).parent / (f"log{CONST}.csv" if CONST else "log.csv")
 EXAMPLE_FILE = Path(__file__).parent / "examplecluster.txt"
 
 FIELDS = ["natural language input", "e0", "e1", "e2", "e3", "e4", "v", "threshold", "message output"]
