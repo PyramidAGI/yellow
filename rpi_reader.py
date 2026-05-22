@@ -21,17 +21,20 @@ INTERVAL = 5  # seconds between readings
 
 def main():
     print(f"Reading analogue channel {CHANNEL} every {INTERVAL}s. Logging to log2.csv. Ctrl+C to stop.")
-    while True:
-        value = read_channel(CHANNEL)
-        voltage = round(value * 3.3, 4)
-        timestamp = time.strftime("%Y-%m-%dT%H:%M:%S")
-        # format: e0=a, e1=sensor, e2-e4 empty, v=sensor value, threshold=threshold value
-        template_program.log(
-            f"analogue channel {CHANNEL} reading",
-            [f"a;sensor;;;;{value};{THRESHOLD};"]
-        )
-        print(f"[{timestamp}] ch{CHANNEL} = {value} ({voltage}V)")
-        time.sleep(INTERVAL)
+    try:
+        while True:
+            value = read_channel(CHANNEL)
+            voltage = round(value * 3.3, 4)
+            timestamp = time.strftime("%Y-%m-%dT%H:%M:%S")
+            # format: e0=a, e1=sensor, e2-e4 empty, v=sensor value, threshold=threshold value
+            template_program.log(
+                f"analogue channel {CHANNEL} reading",
+                [f"a;sensor;;;;{value};{THRESHOLD};"]
+            )
+            print(f"[{timestamp}] ch{CHANNEL} = {value} ({voltage}V)")
+            time.sleep(INTERVAL)
+    except KeyboardInterrupt:
+        print("Stopped.")
 
 if __name__ == "__main__":
     main()
