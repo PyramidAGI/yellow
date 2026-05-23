@@ -61,6 +61,22 @@ python tree.py
 
 Each key press briefly shows a command word in the top-left corner (e.g. "traverse", "navigate", "save").
 
+### robot_tree.py / robot_tree_deep.py
+
+**Robot signs:**
+
+| # | Name |
+|---|------|
+| 0 | grasper |
+| 1 | arm |
+| 2 | leg |
+| 3 | body |
+| 4 | camera |
+| 5 | electromotor |
+| 6 | servomotor |
+| 7 | brain |
+| 8 | dot |
+
 ### robot_tree_deep.py
 
 A 4-level version of `robot_tree.py` with 28 nodes (1 root + 3 branches + 8 sub-branches + 16 leaves). Signs are drawn smaller (scale 20, font 9pt) to fit all 16 bottom nodes on screen.
