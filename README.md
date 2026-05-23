@@ -148,6 +148,15 @@ cluster = get_cluster(1)
 
 Each sign or combination of signs maps to one or more rows in a cluster. A simulation program can build clusters programmatically and log them, then use `solve_problem` to request reasoning from an LLM.
 
+### run_template.bat
+
+`run_template.bat` runs a number of Python files in sequence. Each Python file can import `template_program.py` for logging and recall, keeping the individual files small. Each file can also call an LLM for problem solving via `solve_problem`. Add a line per file:
+
+```bat
+@python template_program.py
+@python rpi_reader.py
+```
+
 ## Tree files
 
 - `tree1.csv` — active tree (used by tree.py)
