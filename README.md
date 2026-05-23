@@ -148,9 +148,9 @@ cluster = get_cluster(1)
 
 Each sign or combination of signs maps to one or more rows in a cluster. A simulation program can build clusters programmatically and log them, then use `solve_problem` to request reasoning from an LLM.
 
-### run_template.bat
+### run_yellow.bat
 
-`run_template.bat` runs a number of Python files in sequence. Each Python file can import `template_program.py` for logging, recall, and LLM problem solving via `solve_problem`, keeping the individual files small. Add a line per file:
+`run_yellow.bat` runs a number of Python files in sequence. Each Python file can import `template_program.py` for logging, recall, and LLM problem solving via `solve_problem`, keeping the individual files small. Add a line per file:
 
 ```bat
 python template_program.py
