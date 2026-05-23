@@ -150,7 +150,7 @@ Each sign or combination of signs maps to one or more rows in a cluster. A simul
 
 ### run_template.bat
 
-`run_template.bat` runs a number of Python files in sequence. Each Python file can import `template_program.py` for logging and recall, keeping the individual files small. Each file can also call an LLM for problem solving via `solve_problem`. Add a line per file:
+`run_template.bat` runs a number of Python files in sequence. Each Python file can import `template_program.py` for logging, recall, and LLM problem solving via `solve_problem`, keeping the individual files small. The `@` prefix on each line suppresses echoing the command in the terminal. Add a line per file:
 
 ```bat
 @python template_program.py
