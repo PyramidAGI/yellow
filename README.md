@@ -61,6 +61,17 @@ python tree.py
 
 Each key press briefly shows a command word in the top-left corner (e.g. "traverse", "navigate", "save").
 
+### robot_tree_deep.py
+
+A 4-level version of `robot_tree.py` with 28 nodes (1 root + 3 branches + 8 sub-branches + 16 leaves). Signs are drawn smaller (scale 20, font 9pt) to fit all 16 bottom nodes on screen.
+
+**Run:**
+```
+python robot_tree_deep.py
+```
+
+**Controls:** same as `tree.py` (R, N, B, S, T, L, 1–6). Saves/loads to `robot_tree_deep1.csv`–`robot_tree_deep6.csv`.
+
 ### load_tree.py
 
 Command-line utility to replace the active tree file (`tree1.csv`) with another saved tree file.
