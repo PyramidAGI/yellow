@@ -153,7 +153,7 @@ Each sign or combination of signs maps to one or more rows in a cluster. A simul
 `run_yellow.bat` runs a number of Python files in sequence. Each Python file can import `template_program.py` for logging, recall, and LLM problem solving via `solve_problem`, keeping the individual files small. Add a line per file:
 
 ```bat
-python template_program.py
+python template_program.py :: for example. please replace by python program that imports template_program.py
 python rpi_reader.py
 ```
 
