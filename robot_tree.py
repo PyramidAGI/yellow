@@ -61,6 +61,9 @@ ROBOT_PARTS = [
           0.4 * math.sin(t) * (1 + 0.1 * math.cos(6 * t)))
          for t in (i * 2 * math.pi / 60 for i in range(61))],
     ]),
+    ("dot", [
+        [(0.08 * math.cos(i * 2 * math.pi / 20), 0.08 * math.sin(i * 2 * math.pi / 20)) for i in range(21)],
+    ]),
 ]
 
 COLORS = [
