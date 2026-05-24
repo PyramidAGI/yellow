@@ -5,7 +5,7 @@ import os
 import csv
 
 CSV_FILE = os.path.join(os.path.dirname(__file__), "robot_tree_deep1.csv")
-BINARY_FILE = os.path.join(os.path.dirname(__file__), "binary_tree.csv")
+BINARY_FILE = os.path.join(os.path.dirname(__file__), "position_tree.csv")
 
 WIDTH, HEIGHT = 1000, 680
 SCALE = 20
@@ -192,7 +192,8 @@ def main():
                     cmd_word = cmd_map[event.key]
                     cmd_timer = pygame.time.get_ticks()
                 if event.key == pygame.K_r:
-                    parts = new_parts()
+                    new = new_parts()
+                    parts = [new[i] if binary[i] == 1 else parts[i] for i in range(len(parts))]
                 elif event.key == pygame.K_b:
                     bg = (255, 255, 255) if bg == (0, 0, 0) else (0, 0, 0)
                 elif event.key == pygame.K_n:
