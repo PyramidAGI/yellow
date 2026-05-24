@@ -20,8 +20,9 @@ now the TWM must have: continual learning, long-term reasoning, memory and probl
 
 
 
-|plan-ctrl-nav|X P I T|
+|row1|row2|
 |-|-|
+|plan-ctrl-nav|X P I T|
 |skills files|hybrid tree of a mixture of components|
 
 
