@@ -185,6 +185,7 @@ def main():
                     pygame.K_r: "randomize", pygame.K_b: "toggle",
                     pygame.K_n: "navigate", pygame.K_s: "save",
                     pygame.K_t: "traverse", pygame.K_l: "load",
+                    pygame.K_p: "reset positions",
                     pygame.K_1: "load 1", pygame.K_2: "load 2", pygame.K_3: "load 3",
                     pygame.K_4: "load 4", pygame.K_5: "load 5", pygame.K_6: "load 6",
                 }
@@ -208,6 +209,11 @@ def main():
                         seq_idx = 0
                     nav_path = seq_paths[seq_idx]
                     nav_t = 0.0
+                elif event.key == pygame.K_p:
+                    # reset all positions to 1 so R will randomize all nodes again
+                    binary = [1] * len(TREE_LAYOUT)
+                    with open(BINARY_FILE, "w", newline="") as f:
+                        csv.writer(f).writerow(binary)
                 elif event.key == pygame.K_l:
                     if os.path.exists(CSV_FILE):
                         with open(CSV_FILE, newline="") as f:
