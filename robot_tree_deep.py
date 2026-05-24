@@ -5,6 +5,7 @@ import os
 import csv
 
 CSV_FILE = os.path.join(os.path.dirname(__file__), "robot_tree_deep1.csv")
+BINARY_FILE = os.path.join(os.path.dirname(__file__), "binary_tree.csv")
 
 WIDTH, HEIGHT = 1000, 680
 SCALE = 20
@@ -103,7 +104,7 @@ def draw_part(surface, index, color, cx, cy, scale):
         if len(pts) >= 2:
             pygame.draw.lines(surface, color, False, pts, 1)
 
-def draw_tree(surface, part_indices, font):
+def draw_tree(surface, part_indices, font, binary=None):
     for i, (parent, x, y) in enumerate(TREE_LAYOUT):
         if parent is not None:
             _, px, py = TREE_LAYOUT[parent]
@@ -114,6 +115,8 @@ def draw_tree(surface, part_indices, font):
         draw_part(surface, idx, color, x, y, SCALE)
         lbl = font.render(ROBOT_PARTS[idx][0], True, color)
         surface.blit(lbl, (x - lbl.get_width() // 2, y + SCALE + 2))
+        bin_lbl = font.render(str(binary[i]) if binary else "", True, color)
+        surface.blit(bin_lbl, (x - bin_lbl.get_width() // 2, y - SCALE - 10))
 
 def new_parts():
     return random.choices(range(len(ROBOT_PARTS)), k=len(TREE_LAYOUT))
@@ -146,6 +149,10 @@ def main():
     font = pygame.font.SysFont("arial", 9)
 
     parts = new_parts()
+    binary = [1] * len(TREE_LAYOUT)
+    if os.path.exists(BINARY_FILE):
+        with open(BINARY_FILE, newline="") as f:
+            binary = [int(x) for x in next(csv.reader(f))]
     bg = (0, 0, 0)
     nav_path = None
     nav_t = 0.0
@@ -154,12 +161,25 @@ def main():
     seq_idx = 0
     cmd_word = ""
     cmd_timer = 0
+    mouse_pos = None
 
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mx, my = event.pos
+                mouse_pos = None
+                for i, (_, nx, ny) in enumerate(TREE_LAYOUT):
+                    if math.hypot(mx - nx, my - ny) <= SCALE:
+                        binary[i] = 1 - binary[i]
+                        with open(BINARY_FILE, "w", newline="") as f:
+                            csv.writer(f).writerow(binary)
+                        mouse_pos = f"{ROBOT_PARTS[parts[i]][0]} ({mx}, {my})"
+                        break
+                if mouse_pos is None:
+                    mouse_pos = f"({mx}, {my})"
             if event.type == pygame.KEYDOWN:
                 cmd_map = {
                     pygame.K_r: "randomize", pygame.K_b: "toggle",
@@ -199,7 +219,7 @@ def main():
                             parts = [int(x) for x in next(csv.reader(f))]
 
         screen.fill(bg)
-        draw_tree(screen, parts, font)
+        draw_tree(screen, parts, font, binary)
 
         if nav_path:
             nav_t += NAV_SPEED
@@ -214,6 +234,10 @@ def main():
                 bx = int(x0 + (x1 - x0) * frac)
                 by = int(y0 + (y1 - y0) * frac)
                 pygame.draw.circle(screen, (255, 220, 50), (bx, by), 5)
+
+        if mouse_pos:
+            coord_lbl = font.render(mouse_pos, True, (200, 200, 200))
+            screen.blit(coord_lbl, (10, 25))
 
         if cmd_word and pygame.time.get_ticks() - cmd_timer < 500:
             cmd_lbl = font.render(cmd_word, True, (200, 200, 200))
