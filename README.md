@@ -86,7 +86,7 @@ A 4-level version of `robot_tree.py` with 28 nodes (1 root + 3 branches + 8 sub-
 python robot_tree_deep.py
 ```
 
-**Controls:** same as `tree.py` (R, N, B, S, T, L, 1–6). Saves/loads to `robot_tree_deep1.csv`–`robot_tree_deep6.csv`.
+**Controls:** same as `tree.py` (R, N, B, S, T, L, P, 1–6). Saves/loads to `robot_tree_deep1.csv`–`robot_tree_deep6.csv`. Click a node to toggle its position value (0/1) in `position_tree.csv`. R only randomizes nodes with position value 1. Press P to reset all positions to 1.
 
 ### load_tree.py
 
