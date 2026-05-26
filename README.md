@@ -155,7 +155,10 @@ Each sign or combination of signs maps to one or more rows in a cluster. A simul
 ```bat
 python template_program.py :: for example. please replace by python program that imports template_program.py
 python rpi_reader.py
+python bus.py
 ```
+
+`bus.py` iterates over all nodes in the tree. For each node it pulls messages from connected nodes and writes them to that node's own log file (`log0.csv`, `log1.csv`, ...). Direction "up" reads from children, direction "down" reads from the parent. Add `bus.py` to the batch to run message passing after your other programs.
 
 ## Tree files
 
