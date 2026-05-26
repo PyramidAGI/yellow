@@ -2,8 +2,6 @@
 # For each node, messages are pulled from source nodes and written to the current node's log.
 # direction="up"   → source nodes are the children (up to 3), aggregating upward
 # direction="down" → source node is the parent (1), propagating downward
-import csv
-import os
 import template_program
 
 CHILDREN = {0: [1, 2, 3], 1: [4, 5, 6], 2: [7, 8, 9], 3: [10, 11]}
